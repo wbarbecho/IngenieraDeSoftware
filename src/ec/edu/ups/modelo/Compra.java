@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Compra implements Serializable {
 
 	/**
-	 * 
+	 *  Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
