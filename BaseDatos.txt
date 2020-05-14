@@ -60,8 +60,6 @@ CREATE TABLE `compras` (
   `lib_isbn` varchar(13) NOT NULL,
   PRIMARY KEY (`compr_id`),
   UNIQUE KEY `compr_id_UNIQUE` (`compr_id`),
-  UNIQUE KEY `cli_cedula_UNIQUE` (`cli_cedula`),
-  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`),
   CONSTRAINT `compr_cli_cedula` FOREIGN KEY (`cli_cedula`) REFERENCES `clientes` (`cli_cedula`),
   CONSTRAINT `compr_lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -7,29 +7,23 @@ import java.util.ArrayList;
 public class Compra implements Serializable {
 
 	/**
-	 *  Serializable
+	 * Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private Date fecha;
 	private Cliente cliente;
-	private ArrayList<Libro> ListaLibros;
+	private ArrayList<LibroDigital> ListaDigitales;
+	private ArrayList<LibroImpreso> ListaImpresos;
 
-	public Compra(int id, Date fecha, Cliente cliente, ArrayList<Libro> libros) {
+	public Compra(int id, Date fecha, Cliente cliente, ArrayList<LibroDigital> listaDigitales,
+			ArrayList<LibroImpreso> listaImpresos) {
 		super();
-		libros = new ArrayList<Libro>();
 		this.id = id;
 		this.fecha = fecha;
 		this.cliente = cliente;
-		this.ListaLibros = libros;
-	}
-
-	public Compra(int id, Date fecha, Cliente cliente) {
-		super();
-		ListaLibros = new ArrayList<Libro>();
-		this.id = id;
-		this.fecha = fecha;
-		this.cliente = cliente;
+		ListaDigitales = listaDigitales;
+		ListaImpresos = listaImpresos;
 	}
 
 	public int getId() {
@@ -56,21 +50,34 @@ public class Compra implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public ArrayList<Libro> getListaLibros() {
-		return ListaLibros;
+	public ArrayList<LibroDigital> getListaDigitales() {
+		return ListaDigitales;
 	}
 
-	public void setListaLibros(ArrayList<Libro> listaLibros) {
-		ListaLibros = listaLibros;
+	public void setListaDigitales(ArrayList<LibroDigital> listaDigitales) {
+		ListaDigitales = listaDigitales;
 	}
 
-	public void addLibro(Libro libro) {
-		ListaLibros.add(libro);
+	public ArrayList<LibroImpreso> getListaImpresos() {
+		return ListaImpresos;
+	}
+
+	public void setListaImpresos(ArrayList<LibroImpreso> listaImpresos) {
+		ListaImpresos = listaImpresos;
+	}
+
+	public void addLibroDigital(LibroDigital libro) {
+		ListaDigitales.add(libro);
+	}
+
+	public void addLibroImreso(LibroImpreso libro) {
+		ListaImpresos.add(libro);
 	}
 
 	@Override
 	public String toString() {
-		return "Compra [id=" + id + ", fecha=" + fecha + ", cliente=" + cliente + ", ListaLibros=" + ListaLibros + "]";
+		return "Compra [id=" + id + ", fecha=" + fecha + ", cliente=" + cliente + ", ListaDigitales=" + ListaDigitales
+				+ ", ListaImpresos=" + ListaImpresos + "]";
 	}
 
 }
