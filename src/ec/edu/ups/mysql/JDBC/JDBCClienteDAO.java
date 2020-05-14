@@ -19,6 +19,7 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 
 	@Override
 	public void create(Cliente cliente) {
+		
 		// TODO Auto-generated method stub
 		conexionUno.update("INSERT clientes VALUES ('" + cliente.getCedula() + "', '" + cliente.getNombre() + "', '" + cliente.getApellido() + "', " 
 				+ cliente.getCredito() + ", '" + cliente.getCorreo() + "', '" + cliente.getContrasenia() + "', 'User'"  + ")");
