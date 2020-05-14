@@ -1,6 +1,5 @@
 #Nombre de la base de datos "librobd"
 
-CREATE SCHEMA `librobd` ;
 
 #Creacion de libros
 CREATE TABLE `libros` (
