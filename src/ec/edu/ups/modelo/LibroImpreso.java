@@ -9,12 +9,12 @@ public class LibroImpreso extends Libro implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Libro Libro;
-	private String id;
+	private int id;
 	private double comision;
 	private double costoEnvio;
 
 	public LibroImpreso(String isbn, String titulo, String autor, String edicion, String imagen, double precio,
-			ec.edu.ups.modelo.Libro libro, String id, double comision, double costoEnvio) {
+			ec.edu.ups.modelo.Libro libro, int id, double comision, double costoEnvio) {
 		super(isbn, titulo, autor, edicion, imagen, precio);
 		Libro = libro;
 		this.id = id;
@@ -30,11 +30,11 @@ public class LibroImpreso extends Libro implements Serializable {
 		Libro = libro;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
