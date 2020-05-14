@@ -1,3 +1,5 @@
+Nombre de la base de datos "librobd"
+
 Creacion de libros
 
 CREATE TABLE `libros` (
