@@ -1,0 +1,63 @@
+Creacion de libros
+
+CREATE TABLE `libros` (
+  `lib_isbn` varchar(13) NOT NULL,
+  `lib_titulo` varchar(100) NOT NULL,
+  `lib_autor` varchar(100) NOT NULL,
+  `lib_edicion` varchar(100) NOT NULL,
+  `lib_precio` decimal(6,2) NOT NULL,
+  `lib_ubi_img` varchar(200) NOT NULL,
+  PRIMARY KEY (`lib_isbn`),
+  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+Creacion Libros Digitales 
+
+CREATE TABLE `libros_digitales` (
+  `lib_dig_id` int NOT NULL AUTO_INCREMENT,
+  `lib_dig_comision` decimal(4,2) NOT NULL DEFAULT '0.04',
+  `lib_isbn` varchar(13) NOT NULL,
+  PRIMARY KEY (`lib_dig_id`),
+  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`),
+  CONSTRAINT `lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+Creacion Libros Impresos
+
+CREATE TABLE `libros_impresos` (
+  `lib_impr_id` int NOT NULL AUTO_INCREMENT,
+  `lib_impr_com` decimal(4,2) NOT NULL DEFAULT '0.02',
+  `lib_impr_costo_envio` decimal(4,2) NOT NULL DEFAULT '20.00',
+  `lib_isbn` varchar(13) NOT NULL,
+  PRIMARY KEY (`lib_impr_id`),
+  UNIQUE KEY `lib_impr_id_UNIQUE` (`lib_impr_id`),
+  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`),
+  CONSTRAINT `lib_impreso_lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+Creacion Cientes
+
+CREATE TABLE `clientes` (
+  `cli_cedula` varchar(10) NOT NULL,
+  `cli_nombre` varchar(100) NOT NULL,
+  `cli_apellido` varchar(100) NOT NULL,
+  `cli_credito` decimal(6,2) DEFAULT NULL,
+  PRIMARY KEY (`cli_cedula`),
+  UNIQUE KEY `cli_cedula_UNIQUE` (`cli_cedula`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+Creacion Compras
+
+CREATE TABLE `compras` (
+  `compr_id` int NOT NULL AUTO_INCREMENT,
+  `compr_fecha` date NOT NULL,
+  `cli_cedula` varchar(10) NOT NULL,
+  `lib_isbn` varchar(13) NOT NULL,
+  PRIMARY KEY (`compr_id`),
+  UNIQUE KEY `compr_id_UNIQUE` (`compr_id`),
+  UNIQUE KEY `cli_cedula_UNIQUE` (`cli_cedula`),
+  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`),
+  CONSTRAINT `compr_cli_cedula` FOREIGN KEY (`cli_cedula`) REFERENCES `clientes` (`cli_cedula`),
+  CONSTRAINT `compr_lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
