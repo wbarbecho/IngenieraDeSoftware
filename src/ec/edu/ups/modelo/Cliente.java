@@ -16,8 +16,7 @@ public class Cliente implements Serializable {
 	private String contrasenia;
 	private String rol;
 
-	public Cliente(String cedula, String nombre, String apellido, Double credito, String correo, String contrasenia,
-			String rol) {
+	public Cliente(String cedula, String nombre, String apellido, Double credito, String correo, String contrasenia) {
 		super();
 		this.cedula = cedula;
 		Nombre = nombre;
@@ -25,7 +24,6 @@ public class Cliente implements Serializable {
 		this.credito = credito;
 		this.correo = correo;
 		this.contrasenia = contrasenia;
-		this.rol = rol;
 	}
 
 	public String getCedula() {

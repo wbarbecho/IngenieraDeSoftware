@@ -21,7 +21,7 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 	public void create(Cliente cliente) {
 		// TODO Auto-generated method stub
 		conexionUno.update("INSERT clientes VALUES ('" + cliente.getCedula() + "', '" + cliente.getNombre() + "', '" + cliente.getApellido() + "', " 
-				+ cliente.getCredito() +")");
+				+ cliente.getCredito() + ", '" + cliente.getCorreo() + "', '" + cliente.getContrasenia() + "', 'User'"  + ")");
 		
 
 	}
@@ -34,7 +34,8 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 			if (rs != null && rs.next()) {
 
 				cli = new Cliente(rs.getString("CLI_CEDULA"), rs.getString("CLI_NOMBRE"), 
-						rs.getString("CLI_APELLIDO"), rs.getDouble("CLI_CREDITO"));
+						rs.getString("CLI_APELLIDO"), rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"), 
+						rs.getString("CLI_CONTRASENIA"));
 
 			}
 		}catch(SQLException e){
@@ -49,7 +50,8 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 	public void update(Cliente cliente) {
 		// TODO Auto-generated method stub
 		conexionUno.update("UPDATE Clientes SET CLI_NOMBRE = '" + cliente.getNombre() + "', CLI_APELLIDO = '" + cliente.getApellido() + 
-				"', CLI_CREDITO = " + cliente.getCredito() + " WHERE CLI_CEDULA = '" + cliente.getCedula() + "'");
+				"', CLI_CREDITO = " + cliente.getCredito() + ", CLI_CORREO = '" + cliente.getCorreo()	
+				+ "', CLI_CONTRASENIA = '" + cliente.getContrasenia() + "' WHERE CLI_CEDULA = '" + cliente.getCedula() + "'");
 
 
 	}
@@ -68,7 +70,8 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 		try {
 			while (rs.next()) {
 				Cliente cli = new Cliente(rs.getString("CLI_CEDULA"), rs.getString("CLI_NOMBRE"), 
-						rs.getString("CLI_APELLIDO"), rs.getDouble("CLI_CREDITO"));
+						rs.getString("CLI_APELLIDO"), rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"), 
+						rs.getString("CLI_CONTRASENIA"));
 				list.add(cli);
 			}
 
@@ -79,9 +82,6 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 		return list;
 	}
 
-	public void recargarCredito() {
-		String cadena;
-	}
 
 
 }
