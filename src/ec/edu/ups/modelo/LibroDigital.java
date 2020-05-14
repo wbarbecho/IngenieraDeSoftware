@@ -2,7 +2,7 @@ package ec.edu.ups.modelo;
 
 import java.io.Serializable;
 
-public class LibroDigital implements Serializable {
+public class LibroDigital extends Libro implements Serializable {
 
 	/**
 	 * 
@@ -12,8 +12,11 @@ public class LibroDigital implements Serializable {
 	private String id;
 	private double comision;
 
-	public LibroDigital(Libro libro, String id, double comision) {
-		super();
+	
+
+	public LibroDigital(String isbn, String titulo, String autor, String edicion, String imagen, double precio,
+			ec.edu.ups.modelo.Libro libro, String id, double comision) {
+		super(isbn, titulo, autor, edicion, imagen, precio);
 		Libro = libro;
 		this.id = id;
 		this.comision = comision;

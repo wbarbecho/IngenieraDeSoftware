@@ -2,7 +2,7 @@ package ec.edu.ups.modelo;
 
 import java.io.Serializable;
 
-public class Libro implements Serializable {
+public abstract class Libro implements Serializable {
 
 	/**
 	 * 
