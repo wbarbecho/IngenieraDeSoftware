@@ -12,17 +12,20 @@ public class JDBCLibroImpresoDAO extends JDBCGenericDAO<LibroImpreso, String> im
 		// TODO Auto-generated method stub
 		
 	}
-
+//Create
 	@Override
 	public void create(LibroImpreso entity) {
-		// TODO Auto-generated method stub
+		conexionUno.update("INSERT libros_digitales VALUES ('" + entity.getId() + "', '" + entity.getComision() + "', '"
+				+ entity.getCostoEnvio() + ")");
 		
 	}
 
 	@Override
 	public void update(LibroImpreso entity) {
 		// TODO Auto-generated method stub
-		
+		conexionUno.update("UPDATE libros_digitales SET lib_dig_id = '" + entity.getId() + "', lib_dig_comision = '"
+				+ entity.getComision() + "', lib_isbn = " + entity.getIsbn() +  "' WHERE lib_dig_id = '"
+				+ entity.getId()+ "'");
 	}
 
 	@Override
@@ -42,5 +45,7 @@ public class JDBCLibroImpresoDAO extends JDBCGenericDAO<LibroImpreso, String> im
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }
