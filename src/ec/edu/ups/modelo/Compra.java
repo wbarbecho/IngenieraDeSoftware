@@ -55,7 +55,7 @@ public class Compra implements Serializable {
 	}
 
 	public void setListaDigitales(ArrayList<LibroDigital> listaDigitales) {
-		listaDigitales = listaDigitales;
+		this.listaDigitales = listaDigitales;
 	}
 
 	public ArrayList<LibroImpreso> getListaImpresos() {
@@ -63,15 +63,24 @@ public class Compra implements Serializable {
 	}
 
 	public void setListaImpresos(ArrayList<LibroImpreso> listaImpresos) {
-		listaImpresos = listaImpresos;
+		this.listaImpresos = listaImpresos;
 	}
 
 	public void addLibroDigital(LibroDigital libro) {
 		listaDigitales.add(libro);
 	}
 
-	public void addLibroImreso(LibroImpreso libro) {
+	public void addLibroImpreso(LibroImpreso libro) {
 		listaImpresos.add(libro);
+	}
+
+	public double totalCostes() {
+		double total = 0;
+		for (LibroDigital libroDigital : listaDigitales)
+			total += libroDigital.getPrecio();
+		for (LibroImpreso libroImpres : listaImpresos)
+			total += libroImpres.getPrecio();
+		return total;
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -35,7 +35,7 @@ public class Main {
 		System.out.println("************MENU************");
 		Scanner sn = new Scanner(System.in);
 		boolean salir = false;
-		int opcion; //Guardaremos la opcion del usuario
+		int opcion; // Guardaremos la opcion del usuario
 
 		boolean seguir = true;
 
@@ -44,10 +44,9 @@ public class Main {
 		int sesion = 0;
 		Cliente clienteGlobal = null;
 
-		while(seguir) {
+		while (seguir) {
 
 			System.out.println("1. Inciar Sesion \n2. Registrar \n3. Salir");
-
 
 			sesion = sn.nextInt();
 
@@ -58,7 +57,6 @@ public class Main {
 				while (!correcto) {
 					JDBCClienteDAO cli = new JDBCClienteDAO();
 					List<Cliente> clientes = cli.find();
-
 
 					System.out.println("Ingresar Correo:");
 					String correo = sn.next();
@@ -72,26 +70,25 @@ public class Main {
 
 							correcto = true;
 
-							System.out.println("Bienvenido usuari@: \n \t" + clienteGlobal.getNombre() + " " + clienteGlobal.getApellido());
+							System.out.println("Bienvenido usuari@: \n \t" + clienteGlobal.getNombre() + " "
+									+ clienteGlobal.getApellido() + "\n \t$" + clienteGlobal.getCredito());
 							if (clienteGlobal.getRol().equals("User"))
 								user = true;
 
 						}
-
 
 					}
 					if (!correcto)
 						System.out.println("Usuario invalido, ingrese nuevamente, por favor!");
 				}
 				while (!salir) {
-					if(user) {
+					if (user) {
 
 						System.out.println("1. Actualizar Datos Personales");
 						System.out.println("2. Listar Libros Disponibles");
 						System.out.println("3. Listar Compras realizadas");
 						System.out.println("4. Recargar Credito");
 						System.out.println("5. Realizar Compra");
-
 
 						System.out.println("Escoge una de las opciones:");
 						opcion = sn.nextInt();
@@ -136,17 +133,17 @@ public class Main {
 							System.out.println("Listar Libros");
 							System.out.println("Escoger Tipo de libro: 1. Digital; 2. Impreso");
 							int tipo1 = sn.nextInt();
-							if(tipo1==1) {
+							if (tipo1 == 1) {
 								LibroDigitalDAO libroDigitalDAO = DAOGuia.getGuia().getLibroDigitalDAO();
 								List<LibroDigital> libroDig = libroDigitalDAO.find();
 								for (LibroDigital libroDigital : libroDig) {
 									System.out.println("Libro: " + libroDigital);
 								}
-							}else {
+							} else {
 								LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
 								List<LibroImpreso> libroImpr = libroImpresoDAO.find();
 								for (LibroImpreso libroImpreso : libroImpr) {
-									System.out.println("Libro: " + libroImpreso );
+									System.out.println("Libro: " + libroImpreso);
 								}
 							}
 
@@ -160,21 +157,18 @@ public class Main {
 							for (Compra compra : comp.find()) {
 
 								if (compra.getCliente().getCedula().equals(clienteGlobal.getCedula())) {
-									System.out.println(i + ". "+compra);
+									System.out.println(i + ". " + compra);
 									System.out.println("\t" + compra.getCliente());
-									if(compra.getListaDigitales().size()>0)
+									if (compra.getListaDigitales().size() > 0)
 										System.out.println("\t" + compra.getListaDigitales());
-									if(compra.getListaImpresos().size()>0)
+									if (compra.getListaImpresos().size() > 0)
 										System.out.println("\t" + compra.getListaImpresos());
+									if (compra.getListaImpresos().size() == 0 || compra.getListaDigitales().size() == 0)
+										System.out.println("El usuario no a realizado Compras");
 									i++;
 
 								}
 							}
-							/*
-							List<Compra> compras = comp.findById(clienteGlobal.getCedula());
-							for (Compra compra : compras) {
-								System.out.println(compra);
-							}*/
 
 							break;
 						case 4:
@@ -186,14 +180,14 @@ public class Main {
 
 							double monto = sn.nextDouble();
 							double current = clienteGlobal.getCredito();
-							current += monto;				
+							current += monto;
 							ClienteDAO clienteDAO1 = DAOGuia.getGuia().getClienteDAO();
-
+							clienteGlobal.setCredito(current);
 							clienteDAO1.updateBalance(current, clienteGlobal.getCedula());
 
 							System.out.println("Se ha actualizado con exito!");
 							System.out.println("Su credito actual es:");
-							System.out.println(current);
+							System.out.println(clienteGlobal.getCredito());
 
 							break;
 
@@ -209,62 +203,55 @@ public class Main {
 							LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
 							List<LibroImpreso> libroImpr = libroImpresoDAO.find();
 							for (LibroImpreso libroImpreso : libroImpr) {
-								System.out.println("Libro: " + libroImpreso );
+								System.out.println("Libro: " + libroImpreso);
 
 							}
 
 							System.out.println("******Realizar Compra******");
 
 							JDBCCompraDAO compraDAO = new JDBCCompraDAO();
-							
 
 							boolean otro = true;
-							List<LibroDigital> libroDg = new ArrayList<LibroDigital>();
-							List<LibroImpreso> libroImp = new ArrayList<LibroImpreso>();
-					
-							
-							while(otro) {
+							Date fecha = new Date(System.currentTimeMillis());
+							Compra comprado = new Compra(0, fecha, clienteGlobal, new ArrayList<LibroDigital>(),
+									new ArrayList<LibroImpreso>());
 
-								System.out.println("Ingrese codigo de libro, por favor!");
+							while (otro) {
+
+								System.out.println("Ingrese ISBN de libro, por favor!");
 								JDBCLibroDigitalDAO libroD = new JDBCLibroDigitalDAO();
 								JDBCLibroImpresoDAO libroI = new JDBCLibroImpresoDAO();
 								String codigo = sn.next();
-								LibroDigital lig = null;
-								LibroImpreso imp = null;
-								if(libroD.read(codigo)!=null) {
-									lig = libroD.read(codigo);
-									libroDg.add(lig);
-								}
-								if(libroI.read(codigo)!=null) {
-									imp = libroI.read(codigo);
-									libroImp.add(imp);
-								}
-								if(lig == null && imp == null)
-									System.out.println("Ingrese codigo correctamente!");
-								
-								System.out.println("Desdea ingresar otro telefono:");
+								if (libroD.read(codigo) != null)
+									comprado.addLibroDigital(libroD.read(codigo));
+								else if (libroI.read(codigo) != null)
+									comprado.addLibroImpreso(libroI.read(codigo));
+								else
+									System.out.println("Verifique codigo");
+
+								System.out.println("Agregar otro libro:");
 								System.out.println("1. Si");
 								System.out.println("2. No");
-								
+
 								int decision = sn.nextInt();
-								if(decision == 2)
-									otro = false;		
+								if (decision == 2)
+									otro = false;
 
 							}
-							
-							Date fecha = new Date(System.currentTimeMillis());
-							
-							Compra compra = new Compra(null, fecha, clienteGlobal, libroDg, libroImp);
-
+							compraDAO.create(comprado);
+							double saldoActual = clienteGlobal.getCredito();
+							saldoActual -= comprado.totalCostes();
+							ClienteDAO clienteControl = DAOGuia.getGuia().getClienteDAO();
+							clienteGlobal.setCredito(saldoActual);
+							clienteControl.update(clienteGlobal);
+							System.out.println("Compra realizadada com Exito!");
 							break;
-
 
 						default:
 							break;
 						}
 
-					}else {
-
+					} else {
 
 						System.out.println("1. Registrar Libro:");
 						System.out.println("2. Listar Libros");
@@ -293,15 +280,16 @@ public class Main {
 								System.out.print("Ingreso Precio: ");
 								double precio = sn.nextDouble();
 
-								if(tipo == 1) {
+								if (tipo == 1) {
 
-
-									LibroDigital lib = new LibroDigital(isbn, titulo, autor, edicion, "null", precio, null, 2, 0.04);
+									LibroDigital lib = new LibroDigital(isbn, titulo, autor, edicion, "null", precio,
+											null, 2, 0.04);
 
 									LibroDigitalDAO libroDigitalDAO = DAOGuia.getGuia().getLibroDigitalDAO();
-									libroDigitalDAO.create(lib); 
-								}else {
-									LibroImpreso lib = new LibroImpreso(isbn, titulo, autor, edicion, "null", precio, null, 3, 0.02, 20.00);
+									libroDigitalDAO.create(lib);
+								} else {
+									LibroImpreso lib = new LibroImpreso(isbn, titulo, autor, edicion, "null", precio,
+											null, 3, 0.02, 20.00);
 									LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
 									libroImpresoDAO.create(lib);
 								}
@@ -311,17 +299,17 @@ public class Main {
 								System.out.println("Listar Libros");
 								System.out.println("Escoger Tipo de libro: 1. Digital; 2. Impreso");
 								int tipo1 = sn.nextInt();
-								if(tipo1==1) {
+								if (tipo1 == 1) {
 									LibroDigitalDAO libroDigitalDAO = DAOGuia.getGuia().getLibroDigitalDAO();
 									List<LibroDigital> libroDig = libroDigitalDAO.find();
 									for (LibroDigital libroDigital : libroDig) {
 										System.out.println("Libro: " + libroDigital);
 									}
-								}else {
+								} else {
 									LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
 									List<LibroImpreso> libroImpr = libroImpresoDAO.find();
 									for (LibroImpreso libroImpreso : libroImpr) {
-										System.out.println("Libro: " + libroImpreso );
+										System.out.println("Libro: " + libroImpreso);
 									}
 								}
 
@@ -351,10 +339,7 @@ public class Main {
 
 				break;
 
-
-
 			case 2:
-
 
 				System.out.println("Registrar");
 				System.out.print("Ingrese Cedula: ");
@@ -373,7 +358,6 @@ public class Main {
 				ClienteDAO clienteDAO = DAOGuia.getGuia().getClienteDAO();
 				clienteDAO.create(cli);
 				System.out.println("Gracias por unirse a nosotros!");
-
 
 				break;
 
