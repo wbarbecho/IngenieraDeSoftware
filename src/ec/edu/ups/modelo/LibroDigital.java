@@ -22,15 +22,15 @@ public class LibroDigital extends Libro implements Serializable {
 
 	@Override
 	public double calcularPrecioFijo() {
-		// super.setPrecio(super.getPrecio() + comision);
-		return super.getPrecio() + super.getPrecio() * 0.04;
+		double precioFijo = super.getPrecio() + comision;
+		super.setPrecio(precioFijo);
+		return precioFijo;
 	}
 
 	@Override
 	public double calcularComision() {
-		// TODO Auto-generated method stub
-		// comision = super.getPrecio() * 0.04;
-		return super.getPrecio() * 0.04;
+		comision = super.getPrecio() * 0.03;
+		return comision;
 	}
 
 	public Libro getLibro() {
@@ -59,8 +59,8 @@ public class LibroDigital extends Libro implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Libro Digital :" + super.toString() + ", id=" + id + ", comision=" + comision ;
-		
+		return "Libro Digital :" + super.toString() + ", id=" + id + ", comision=" + comision;
+
 	}
 
 }

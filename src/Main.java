@@ -163,9 +163,10 @@ public class Main {
 											System.out.println("\t" + compra.getCliente());
 											if (compra.getListaDigitales().size() > 0)
 												System.out.println("\t" + compra.getListaDigitales());
-											if (compra.getListaImpresos().size() > 0)
+											else if (compra.getListaImpresos().size() > 0)
 												System.out.println("\t" + compra.getListaImpresos());
-											if (compra.getListaImpresos().size() == 0 && compra.getListaDigitales().size() == 0)
+											else if (compra.getListaImpresos().size() == 0
+													&& compra.getListaDigitales().size() == 0)
 												System.out.println("El usuario no a realizado Compras");
 											i++;
 
@@ -230,7 +231,7 @@ public class Main {
 										if (libroD.read(codigo) != null)
 											comprado.addLibroDigital(libroD.read(codigo));
 										else if (libroI.read(codigo) != null)
-											comprado.addLibroImpreso(libroI.read(codigo));
+											comprado.addLibroImreso(libroI.read(codigo));
 										else
 											System.out.println("Verifique codigo");
 
@@ -294,14 +295,14 @@ public class Main {
 
 									if (tipo == 1) {
 
-										LibroDigital lib = new LibroDigital(isbn, titulo, autor, edicion, "null", precio,
-												null, 2, 0.04);
+										LibroDigital lib = new LibroDigital(isbn, titulo, autor, edicion, "null",
+												precio, null, 2, 0.04);
 
 										LibroDigitalDAO libroDigitalDAO = DAOGuia.getGuia().getLibroDigitalDAO();
 										libroDigitalDAO.create(lib);
 									} else {
-										LibroImpreso lib = new LibroImpreso(isbn, titulo, autor, edicion, "null", precio,
-												null, 3, 0.02, 20.00);
+										LibroImpreso lib = new LibroImpreso(isbn, titulo, autor, edicion, "null",
+												precio, null, 3, 0.02, 20.00);
 										LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
 										libroImpresoDAO.create(lib);
 									}
@@ -380,7 +381,7 @@ public class Main {
 				default:
 					break;
 				}
-			}catch (InputMismatchException e) {
+			} catch (InputMismatchException e) {
 				System.out.println("Debes insertar un número");
 				sn.next();
 			}

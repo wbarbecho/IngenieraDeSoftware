@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ec.edu.ups.DAO.LibroImpresoDAO;
+import ec.edu.ups.modelo.Libro;
 import ec.edu.ups.modelo.LibroImpreso;
 
 public class JDBCLibroImpresoDAO extends JDBCGenericDAO<LibroImpreso, String> implements LibroImpresoDAO {
@@ -16,14 +17,17 @@ public class JDBCLibroImpresoDAO extends JDBCGenericDAO<LibroImpreso, String> im
 
 	}
 
-	public void create(LibroImpreso libro) {
+	public void create(LibroImpreso impreso) {
 		// TODO Auto-generated method stub
 
-		conexionUno.update(
-				"INSERT Libros VALUES ('" + libro.getIsbn() + "', '" + libro.getTitulo() + "', '" + libro.getAutor()
-						+ "', '" + libro.getEdicion() + "', " + libro.getPrecio() + ", '" + libro.getImagen() + "')");
-		conexionUno.update("INSERT libros_impresos (lib_impr_com, lib_impr_costo_envio, lib_isbn) VALUES (" + libro.getComision() + ", "
-				+ libro.getCostoEnvio() + ", '" + libro.getIsbn() + "')");
+		Libro libro = impreso;
+		libro.calcularPrecio();
+
+		conexionUno.update("INSERT Libros VALUES ('" + impreso.getIsbn() + "', '" + impreso.getTitulo() + "', '"
+				+ impreso.getAutor() + "', '" + impreso.getEdicion() + "', " + impreso.getPrecio() + ", '"
+				+ impreso.getImagen() + "')");
+		conexionUno.update("INSERT libros_impresos (lib_impr_com, lib_impr_costo_envio, lib_isbn) VALUES ("
+				+ impreso.getComision() + ", " + impreso.getCostoEnvio() + ", '" + impreso.getIsbn() + "')");
 	}
 
 	@Override

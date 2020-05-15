@@ -74,6 +74,15 @@ public class Compra implements Serializable {
 		listaImpresos.add(libro);
 	}
 
+	public double totalCostes() {
+		double total = 0;
+		for (LibroDigital libroDigital : listaDigitales)
+			total += libroDigital.getPrecio();
+		for (LibroImpreso libroImpres : listaImpresos)
+			total += libroImpres.getPrecio();
+		return total;
+	}
+
 	@Override
 	public String toString() {
 		return "Compra [id=" + id + ", fecha=" + fecha + "]";
