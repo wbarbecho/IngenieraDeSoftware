@@ -8,9 +8,11 @@ import ec.edu.ups.DAO.LibroDigitalDAO;
 import ec.edu.ups.DAO.LibroImpresoDAO;
 import ec.edu.ups.controlador.CliController;
 import ec.edu.ups.modelo.Cliente;
+import ec.edu.ups.modelo.Compra;
 import ec.edu.ups.modelo.LibroDigital;
 import ec.edu.ups.modelo.LibroImpreso;
 import ec.edu.ups.mysql.JDBC.JDBCClienteDAO;
+import ec.edu.ups.mysql.JDBC.JDBCCompraDAO;
 import ec.edu.ups.mysql.JDBC.JDBCLibroDigitalDAO;
 
 public class Main {
@@ -116,7 +118,36 @@ public class Main {
 							System.out.println(clienteGlobal);
 
 							break;
+							
+						case 2:
+							System.out.println("Listar Libros");
+							System.out.println("Escoger Tipo de libro: 1. Digital; 2. Impreso");
+							int tipo1 = sn.nextInt();
+							if(tipo1==1) {
+								LibroDigitalDAO libroDigitalDAO = DAOGuia.getGuia().getLibroDigitalDAO();
+								List<LibroDigital> libroDig = libroDigitalDAO.find();
+								for (LibroDigital libroDigital : libroDig) {
+									System.out.println("Libro: " + libroDigital);
+								}
+							}else {
+								LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
+								List<LibroImpreso> libroImpr = libroImpresoDAO.find();
+								for (LibroImpreso libroImpreso : libroImpr) {
+									System.out.println("Libro: " + libroImpreso );
+								}
+							}
 
+							break;
+							
+						case 3:
+							
+							System.out.println("El usuario ha realizado las siguientes compras:");
+							JDBCCompraDAO comp = new JDBCCompraDAO();
+							List<Compra> compras = comp.findById(clienteGlobal.getCedula());
+							for (Compra compra : compras) {
+								System.out.println(compra);
+							}
+							
 						default:
 							break;
 						}

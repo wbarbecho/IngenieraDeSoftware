@@ -111,4 +111,37 @@ public class JDBCCompraDAO extends JDBCGenericDAO<Compra, String> implements Com
 
 		return list;
 	}
+	
+	public List<Compra> findById(String id) {
+		List<Compra> list = new ArrayList<Compra>();
+		ResultSet rs = conexionUno.query("SELECT * FROM compras where cli_cedula = '" + id + "'");
+		JDBCLibroDigitalDAO buscarDigital = new JDBCLibroDigitalDAO();
+		JDBCLibroImpresoDAO buscarImpres = new JDBCLibroImpresoDAO();
+		JDBCClienteDAO buscarCliente = new JDBCClienteDAO();
+		ArrayList<String> cedulas = new ArrayList<String>();
+		ArrayList<String> isbnLista = new ArrayList<String>();
+		try {
+			while (rs.next()) {
+				isbnLista.add(rs.getString("lib_isbn"));
+				cedulas.add(rs.getString("cli_cedula"));
+				Compra comp = new Compra(rs.getInt("compr_id"), rs.getDate("compr_fecha"), null,
+						new ArrayList<LibroDigital>(), new ArrayList<LibroImpreso>());
+				list.add(comp);
+			}
+
+		} catch (SQLException e) {
+			System.out.println(">>>WARNING (JDBCShoppingBasketDAO:find): " + e.getMessage());
+		}
+
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setCliente(buscarCliente.read(cedulas.get(i)));
+			if (buscarDigital.read(isbnLista.get(i)) != null) {
+				list.get(i).getListaDigitales().add(buscarDigital.read(isbnLista.get(i)));
+			} else if (buscarImpres.read(isbnLista.get(i)) != null) {
+				list.get(i).getListaImpresos().add(buscarImpres.read(isbnLista.get(i)));
+			}
+		}
+
+		return list;
+	}
 }
