@@ -32,6 +32,7 @@ public class Main {
 		boolean user = false;
 		boolean correcto = false;
 		int sesion = 0;
+		Cliente clienteGlobal = null;
 
 		while(seguir) {
 
@@ -39,7 +40,7 @@ public class Main {
 
 
 			sesion = sn.nextInt();
-			
+
 			switch (sesion) {
 			case 1:
 				System.out.println("Iniciar Sesion");
@@ -47,7 +48,7 @@ public class Main {
 				while (!correcto) {
 					JDBCClienteDAO cli = new JDBCClienteDAO();
 					List<Cliente> clientes = cli.find();
-					Cliente clienteGlobal = null;
+
 
 					System.out.println("Ingresar Correo:");
 					String correo = sn.next();
@@ -74,13 +75,51 @@ public class Main {
 				}
 				while (!salir) {
 					if(user) {
-						
+
 						System.out.println("1. Actualizar Datos Personales");
 						System.out.println("2. Listar Libros Disponibles");
 						System.out.println("3. Listar Compras realizadas");
-						
+
 						System.out.println("Escoge una de las opciones:");
 						opcion = sn.nextInt();
+
+						switch (opcion) {
+						case 1:
+							System.out.println("Informacion Actual del Usuario");
+							System.out.println(clienteGlobal);
+							System.out.println("Ingrese informacion que desea modificar:");
+							String nombre = "";
+							String apellido = "";
+							String correo = "";
+							String password = "";
+							System.out.print("Ingrese Nombre: ");
+							nombre = sn.next();
+							System.out.print("Ingrese Apellido: ");
+							apellido = sn.next();
+							System.out.print("Recargar Credito: ");
+							double credito = sn.nextDouble();
+							double actual = clienteGlobal.getCredito();
+							System.out.println("Ingrese Correo: ");
+							correo = sn.next();
+							System.out.println("Ingrese Contrasenia: ");
+							password = sn.next();
+							clienteGlobal.setNombre(nombre);
+							clienteGlobal.setApellido(apellido);
+							clienteGlobal.setCredito(actual += credito);
+							clienteGlobal.setCorreo(correo);
+							clienteGlobal.setContrasenia(password);
+							ClienteDAO clienteDAO = DAOGuia.getGuia().getClienteDAO();
+							clienteDAO.update(clienteGlobal);
+
+							System.out.println("***Informacion Actualizada: ");
+
+							System.out.println(clienteGlobal);
+
+							break;
+
+						default:
+							break;
+						}
 
 					}else {
 
@@ -166,11 +205,11 @@ public class Main {
 				System.out.println("Gracias por su visita, vuelva pronto amig@!");
 
 				break;
-			
-			
+
+
 
 			case 2:
-				
+
 
 				System.out.println("Registrar Sesion");
 				System.out.print("Ingrese Cedula: ");
@@ -192,11 +231,11 @@ public class Main {
 
 
 				break;
-				
+
 			case 3:
-				
+
 				seguir = false;
-				
+
 			default:
 				break;
 			}
