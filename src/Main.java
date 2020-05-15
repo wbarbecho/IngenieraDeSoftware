@@ -2,6 +2,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import ec.edu.ups.DAO.ClienteDAO;
 import ec.edu.ups.DAO.DAOGuia;
 import ec.edu.ups.DAO.LibroDigitalDAO;
 import ec.edu.ups.DAO.LibroImpresoDAO;
@@ -47,7 +48,7 @@ public class Main {
 					correcto = true;
 					
 					System.out.println(clienteGlobal);
-					System.out.println("Bienvenido usuari@" + clienteGlobal.getNombre() + " " + clienteGlobal.getApellido());
+					System.out.println("Bienvenido usuari@: \n \t" + clienteGlobal.getNombre() + " " + clienteGlobal.getApellido());
 					if (clienteGlobal.getRol().equals("User"))
 						user = true;
 
@@ -67,12 +68,9 @@ public class Main {
 
 
 				System.out.println("1. Registrar Libro:");
-				System.out.println("2. Eliminar Libro:");
-				System.out.println("3. Actualizar Libro:");
-				System.out.println("4. Registrar Cliente");
-				System.out.println("5. Eliminar Cliente");
-				System.out.println("6. Actualizar Cliente");
-
+				System.out.println("2. Listar Libros");
+				System.out.println("3. Listar Clientes");
+				System.out.println("4. Salir");
 				try {
 
 					System.out.println("Escoge una de las opciones");
@@ -108,10 +106,31 @@ public class Main {
 
 						break;
 					case 2:
-						System.out.println("Has seleccionado la opcion 2");
+						System.out.println("Listar Libros");
+						System.out.println("Escoger Tipo de libro: 1. Digital; 2. Impreso");
+						int tipo1 = sn.nextInt();
+						if(tipo1==1) {
+							LibroDigitalDAO libroDigitalDAO = DAOGuia.getGuia().getLibroDigitalDAO();
+							List<LibroDigital> libroDig = libroDigitalDAO.find();
+							for (LibroDigital libroDigital : libroDig) {
+								System.out.println("Libro: " + libroDigital);
+							}
+						}else {
+							LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
+							List<LibroImpreso> libroImpr = libroImpresoDAO.find();
+							for (LibroImpreso libroImpreso : libroImpr) {
+								System.out.println("Libro: " + libroImpreso );
+							}
+						}
+						
 						break;
 					case 3:
-						System.out.println("Has seleccionado la opcion 3");
+						System.out.println("Listar Clientes");
+						ClienteDAO clienteDAO = DAOGuia.getGuia().getClienteDAO();
+						List<Cliente> cliList = clienteDAO.find();
+						for (Cliente cliente : cliList) {
+							System.out.println(cliente);
+						}
 						break;
 					case 4:
 						salir = true;
@@ -125,6 +144,8 @@ public class Main {
 				}
 			}
 		}
+		
+		System.out.println("Gracias por su visita, vuelva pronto amig@!");
 
 
 	}
