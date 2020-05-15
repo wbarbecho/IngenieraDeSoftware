@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -9,11 +11,13 @@ import ec.edu.ups.DAO.LibroImpresoDAO;
 import ec.edu.ups.controlador.CliController;
 import ec.edu.ups.modelo.Cliente;
 import ec.edu.ups.modelo.Compra;
+import ec.edu.ups.modelo.Libro;
 import ec.edu.ups.modelo.LibroDigital;
 import ec.edu.ups.modelo.LibroImpreso;
 import ec.edu.ups.mysql.JDBC.JDBCClienteDAO;
 import ec.edu.ups.mysql.JDBC.JDBCCompraDAO;
 import ec.edu.ups.mysql.JDBC.JDBCLibroDigitalDAO;
+import ec.edu.ups.mysql.JDBC.JDBCLibroImpresoDAO;
 
 public class Main {
 
@@ -86,7 +90,8 @@ public class Main {
 						System.out.println("2. Listar Libros Disponibles");
 						System.out.println("3. Listar Compras realizadas");
 						System.out.println("4. Recargar Credito");
-						
+						System.out.println("5. Realizar Compra");
+
 
 						System.out.println("Escoge una de las opciones:");
 						opcion = sn.nextInt();
@@ -153,7 +158,7 @@ public class Main {
 							JDBCCompraDAO comp = new JDBCCompraDAO();
 							int i = 0;
 							for (Compra compra : comp.find()) {
-								
+
 								if (compra.getCliente().getCedula().equals(clienteGlobal.getCedula())) {
 									System.out.println(i + ". "+compra);
 									System.out.println("\t" + compra.getCliente());
@@ -170,25 +175,90 @@ public class Main {
 							for (Compra compra : compras) {
 								System.out.println(compra);
 							}*/
-						
+
 							break;
 						case 4:
-							
+
 							System.out.println("Recargar Credito");
 							System.out.println("Saldo Actual:" + clienteGlobal.getCredito());
-						
+
 							System.out.println("Ingresar monto a Recargar:");
-							
+
 							double monto = sn.nextDouble();
 							double current = clienteGlobal.getCredito();
 							current += monto;				
 							ClienteDAO clienteDAO1 = DAOGuia.getGuia().getClienteDAO();
 
 							clienteDAO1.updateBalance(current, clienteGlobal.getCedula());
-							
+
 							System.out.println("Se ha actualizado con exito!");
 							System.out.println("Su credito actual es:");
 							System.out.println(current);
+
+							break;
+
+						case 5:
+							System.out.println("Catalogo");
+
+							LibroDigitalDAO libroDigitalDAO = DAOGuia.getGuia().getLibroDigitalDAO();
+							List<LibroDigital> libroDig = libroDigitalDAO.find();
+							for (LibroDigital libroDigital : libroDig) {
+								System.out.println("Libro: " + libroDigital);
+							}
+
+							LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
+							List<LibroImpreso> libroImpr = libroImpresoDAO.find();
+							for (LibroImpreso libroImpreso : libroImpr) {
+								System.out.println("Libro: " + libroImpreso );
+
+							}
+
+							System.out.println("******Realizar Compra******");
+
+							JDBCCompraDAO compraDAO = new JDBCCompraDAO();
+							
+
+							boolean otro = true;
+							List<LibroDigital> libroDg = new ArrayList<LibroDigital>();
+							List<LibroImpreso> libroImp = new ArrayList<LibroImpreso>();
+					
+							
+							while(otro) {
+
+								System.out.println("Ingrese codigo de libro, por favor!");
+								JDBCLibroDigitalDAO libroD = new JDBCLibroDigitalDAO();
+								JDBCLibroImpresoDAO libroI = new JDBCLibroImpresoDAO();
+								String codigo = sn.next();
+								LibroDigital lig = null;
+								LibroImpreso imp = null;
+								if(libroD.read(codigo)!=null) {
+									lig = libroD.read(codigo);
+									libroDg.add(lig);
+								}
+								if(libroI.read(codigo)!=null) {
+									imp = libroI.read(codigo);
+									libroImp.add(imp);
+								}
+								if(lig == null && imp == null)
+									System.out.println("Ingrese codigo correctamente!");
+								
+								System.out.println("Desdea ingresar otro telefono:");
+								System.out.println("1. Si");
+								System.out.println("2. No");
+								
+								int decision = sn.nextInt();
+								if(decision == 2)
+									otro = false;		
+
+							}
+							
+							Date fecha = new Date(System.currentTimeMillis());
+							
+							Compra compra = new Compra(null, fecha, clienteGlobal, libroDg, libroImp);
+
+							break;
+
+
 						default:
 							break;
 						}
@@ -219,9 +289,12 @@ public class Main {
 								String autor = sn.next();
 								System.out.print("Ingrese Edicion:");
 								String edicion = sn.next();
+
 								System.out.print("Ingreso Precio: ");
 								double precio = sn.nextDouble();
+
 								if(tipo == 1) {
+
 
 									LibroDigital lib = new LibroDigital(isbn, titulo, autor, edicion, "null", precio, null, 2, 0.04);
 
