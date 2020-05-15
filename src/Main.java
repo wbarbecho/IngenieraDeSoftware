@@ -85,6 +85,8 @@ public class Main {
 						System.out.println("1. Actualizar Datos Personales");
 						System.out.println("2. Listar Libros Disponibles");
 						System.out.println("3. Listar Compras realizadas");
+						System.out.println("4. Recargar Credito");
+						
 
 						System.out.println("Escoge una de las opciones:");
 						opcion = sn.nextInt();
@@ -92,6 +94,8 @@ public class Main {
 						switch (opcion) {
 						case 1:
 							System.out.println("Informacion Actual del Usuario");
+							JDBCClienteDAO cli = new JDBCClienteDAO();
+							clienteGlobal = cli.read(clienteGlobal.getCedula());
 							System.out.println(clienteGlobal);
 							System.out.println("Ingrese informacion que desea modificar:");
 							String nombre = "";
@@ -166,7 +170,25 @@ public class Main {
 							for (Compra compra : compras) {
 								System.out.println(compra);
 							}*/
+						
+							break;
+						case 4:
+							
+							System.out.println("Recargar Credito");
+							System.out.println("Saldo Actual:" + clienteGlobal.getCredito());
+						
+							System.out.println("Ingresar monto a Recargar:");
+							
+							double monto = sn.nextDouble();
+							double current = clienteGlobal.getCredito();
+							current += monto;				
+							ClienteDAO clienteDAO1 = DAOGuia.getGuia().getClienteDAO();
 
+							clienteDAO1.updateBalance(current, clienteGlobal.getCedula());
+							
+							System.out.println("Se ha actualizado con exito!");
+							System.out.println("Su credito actual es:");
+							System.out.println(current);
 						default:
 							break;
 						}
