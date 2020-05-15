@@ -22,7 +22,7 @@ public class JDBCLibroDigitalDAO extends JDBCGenericDAO<LibroDigital, String> im
 				+ entity.getAutor() + "', '" + entity.getEdicion() + "', " + entity.getPrecio() + ", '"
 				+ entity.getImagen() + "')");
 
-		conexionUno.update("INSERT libros_digitales VALUES ('" + entity.getId() + "', '" + entity.getComision() + "', '"
+		conexionUno.update("INSERT libros_digitales (lib_dig_comision, lib_isbn) VALUES (" + entity.getComision() + ", '"
 				+ entity.getIsbn() + "')");
 
 	}

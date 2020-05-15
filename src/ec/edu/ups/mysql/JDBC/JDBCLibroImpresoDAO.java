@@ -22,7 +22,7 @@ public class JDBCLibroImpresoDAO extends JDBCGenericDAO<LibroImpreso, String> im
 		conexionUno.update(
 				"INSERT Libros VALUES ('" + libro.getIsbn() + "', '" + libro.getTitulo() + "', '" + libro.getAutor()
 						+ "', '" + libro.getEdicion() + "', " + libro.getPrecio() + ", '" + libro.getImagen() + "')");
-		conexionUno.update("INSERT libros_impresos VALUES (" + libro.getId() + ", " + libro.getComision() + ", "
+		conexionUno.update("INSERT libros_impresos (lib_impr_com, lib_impr_costo_envio, lib_isbn) VALUES (" + libro.getComision() + ", "
 				+ libro.getCostoEnvio() + ", '" + libro.getIsbn() + "')");
 	}
 
