@@ -27,15 +27,18 @@ public class Main2 {
 		JDBCLibroDigitalDAO catalogoDigi = new JDBCLibroDigitalDAO();
 		JDBCLibroImpresoDAO catalogoImp = new JDBCLibroImpresoDAO();
 
+		System.out.println(cli.read("1111111111"));
 		System.out.println(catalogoDigi.read("isb1"));
 		System.out.println(catalogoImp.read("isb2"));
-		
 		System.out.println("digital");
 		libro = catalogoDigi.read("isb1");
 		libro.calcularPrecio();
+		System.out.println(libro);
+		System.out.println();
 		System.out.println("Impreso");
 		libro = catalogoImp.read("isb2");
 		libro.calcularPrecio();
+		System.out.println(libro);
 
 	}
 
