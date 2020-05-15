@@ -80,5 +80,24 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 
 		return list;
 	}
+	
+	@Override
+	public Cliente readByAddress(String id) {
+		Cliente cli = null;
+		ResultSet rs = conexionUno.query("Select * from Clientes where CLI_CORREO =" + id);
+		try {
+			if (rs != null && rs.next()) {
+
+				cli = new Cliente(rs.getString("CLI_CEDULA"), rs.getString("CLI_NOMBRE"), rs.getString("CLI_APELLIDO"),
+						rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"), rs.getString("CLI_CONTRASENIA"));
+
+			}
+		} catch (SQLException e) {
+			System.out.println(">>>WARNING (JDBCUserDAO:read): " + e.getMessage());
+
+		}
+		return cli;
+
+	}
 
 }
