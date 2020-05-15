@@ -24,17 +24,15 @@ public class LibroImpreso extends Libro implements Serializable {
 
 	@Override
 	public double calcularPrecioFijo() {
-		costoEnvio = 20;
-		double precioFijo = super.getPrecio() + comision + costoEnvio;
-		super.setPrecio(precioFijo);
-		return precioFijo;
+		// super.setPrecio(super.getPrecio() + comision + 20);
+		return super.getPrecio() + super.getPrecio() * 0.02 + 20;
 	}
 
 	@Override
 	public double calcularComision() {
 		// TODO Auto-generated method stub
-		comision = super.getPrecio() * 0.02;
-		return comision;
+		// comision = super.getPrecio() * 0.02;
+		return super.getPrecio() * 0.02;
 	}
 
 	public Libro getLibro() {
@@ -71,9 +69,8 @@ public class LibroImpreso extends Libro implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Libro Impreso :" + super.toString() + ", id=" + id + ", comision=" + comision + ", costoEnvio="
-				+ costoEnvio;
-
+		return "Libro Impreso :" + super.toString() + ", id=" + id + ", comision=" + comision + ", costoEnvio=" + costoEnvio ;
+		
 	}
 
 }
