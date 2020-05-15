@@ -56,8 +56,8 @@ public class LibroImpreso extends Libro implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LibroImpreso [Libro=" + Libro + ", id=" + id + ", comision=" + comision + ", costoEnvio=" + costoEnvio
-				+ "]";
+		return "LibroImpreso [id=" + id + ", comision=" + comision + ", costoEnvio=" + costoEnvio + ", toString()="
+				+ super.toString() + "]";
 	}
 
 }

@@ -7,10 +7,6 @@ import java.util.List;
 import ec.edu.ups.DAO.LibroDigitalDAO;
 
 import ec.edu.ups.modelo.LibroDigital;
-import ec.edu.ups.modelo.Cliente;
-import ec.edu.ups.modelo.Libro;
-
-import ec.edu.ups.modelo.LibroDigital;
 
 public class JDBCLibroDigitalDAO extends JDBCGenericDAO<LibroDigital, String> implements LibroDigitalDAO {
 
