@@ -1,65 +1,84 @@
-Creacion de libros
+	CREATE TABLE `libros` (
+	  `lib_isbn` varchar(13) NOT NULL,
+	  `lib_titulo` varchar(100) NOT NULL,
+	  `lib_autor` varchar(100) NOT NULL,
+	  `lib_edicion` varchar(100) NOT NULL,
+	  `lib_precio` decimal(6,2) NOT NULL,
+	  `lib_ubi_img` varchar(200) NOT NULL,
+	  PRIMARY KEY (`lib_isbn`),
+	  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `libros` (
-  `lib_isbn` varchar(13) NOT NULL,
-  `lib_titulo` varchar(100) NOT NULL,
-  `lib_autor` varchar(100) NOT NULL,
-  `lib_edicion` varchar(100) NOT NULL,
-  `lib_precio` decimal(6,2) NOT NULL,
-  `lib_ubi_img` varchar(200) NOT NULL,
-  PRIMARY KEY (`lib_isbn`),
-  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-Creacion Libros Digitales 
-
-CREATE TABLE `libros_digitales` (
-  `lib_dig_id` int NOT NULL AUTO_INCREMENT,
-  `lib_dig_comision` decimal(4,2) NOT NULL DEFAULT '0.04',
-  `lib_isbn` varchar(13) NOT NULL,
-  PRIMARY KEY (`lib_dig_id`),
-  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`),
-  CONSTRAINT `lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+	CREATE TABLE `libros_digitales` (
+	  `lib_dig_id` int NOT NULL AUTO_INCREMENT,
+	  `lib_dig_comision` decimal(4,2) NOT NULL DEFAULT '0.04',
+	  `lib_isbn` varchar(13) NOT NULL,
+	  PRIMARY KEY (`lib_dig_id`),
+	  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`),
+	  CONSTRAINT `lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-Creacion Libros Impresos
+	CREATE TABLE `libros_impresos` (
+	  `lib_impr_id` int NOT NULL AUTO_INCREMENT,
+	  `lib_impr_com` decimal(4,2) NOT NULL DEFAULT '0.02',
+	  `lib_impr_costo_envio` decimal(4,2) NOT NULL DEFAULT '20.00',
+	  `lib_isbn` varchar(13) NOT NULL,
+	  PRIMARY KEY (`lib_impr_id`),
+	  UNIQUE KEY `lib_impr_id_UNIQUE` (`lib_impr_id`),
+	  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`),
+	  CONSTRAINT `lib_impreso_lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `libros_impresos` (
-  `lib_impr_id` int NOT NULL AUTO_INCREMENT,
-  `lib_impr_com` decimal(4,2) NOT NULL DEFAULT '0.02',
-  `lib_impr_costo_envio` decimal(4,2) NOT NULL DEFAULT '20.00',
-  `lib_isbn` varchar(13) NOT NULL,
-  PRIMARY KEY (`lib_impr_id`),
-  UNIQUE KEY `lib_impr_id_UNIQUE` (`lib_impr_id`),
-  UNIQUE KEY `lib_isbn_UNIQUE` (`lib_isbn`),
-  CONSTRAINT `lib_impreso_lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+	CREATE TABLE `clientes` (
+	  `cli_cedula` varchar(10) NOT NULL,
+	  `cli_nombre` varchar(100) NOT NULL,
+	  `cli_apellido` varchar(100) NOT NULL,
+	  `cli_credito` decimal(6,2) DEFAULT NULL,
+	  `cli_correo` varchar(50) NOT NULL,
+	  `cli_contrasenia` varchar(50) NOT NULL,
+	  `cli_rol` varchar(30) NOT NULL DEFAULT 'User',
+	  PRIMARY KEY (`cli_cedula`),
+	  UNIQUE KEY `cli_cedula_UNIQUE` (`cli_cedula`),
+	  UNIQUE KEY `cli_correo_UNIQUE` (`cli_correo`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-Creacion Cientes
+	CREATE TABLE `compras` (
+	  `compr_id` int NOT NULL AUTO_INCREMENT,
+	  `compr_fecha` date NOT NULL,
+	  `cli_cedula` varchar(10) NOT NULL,
+	  `lib_isbn` varchar(13) NOT NULL,
+	  PRIMARY KEY (`compr_id`),
+	  UNIQUE KEY `compr_id_UNIQUE` (`compr_id`),
+	  CONSTRAINT `compr_cli_cedula` FOREIGN KEY (`cli_cedula`) REFERENCES `clientes` (`cli_cedula`),
+	  CONSTRAINT `compr_lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `clientes` (
-  `cli_cedula` varchar(10) NOT NULL,
-  `cli_nombre` varchar(100) NOT NULL,
-  `cli_apellido` varchar(100) NOT NULL,
-  `cli_credito` decimal(6,2) DEFAULT NULL,
-  `cli_correo` varchar(50) NOT NULL,
-  `cli_contrasenia` varchar(50) NOT NULL,
-  `cli_rol` varchar(30) NOT NULL DEFAULT 'User',
-  PRIMARY KEY (`cli_cedula`),
-  UNIQUE KEY `cli_cedula_UNIQUE` (`cli_cedula`),
-  UNIQUE KEY `cli_correo_UNIQUE` (`cli_correo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+	############
 
-Creacion Compras
 
-CREATE TABLE `compras` (
-  `compr_id` int NOT NULL AUTO_INCREMENT,
-  `compr_fecha` date NOT NULL,
-  `cli_cedula` varchar(10) NOT NULL,
-  `lib_isbn` varchar(13) NOT NULL,
-  PRIMARY KEY (`compr_id`),
-  UNIQUE KEY `compr_id_UNIQUE` (`compr_id`),
-  CONSTRAINT `compr_cli_cedula` FOREIGN KEY (`cli_cedula`) REFERENCES `clientes` (`cli_cedula`),
-  CONSTRAINT `compr_lib_isbn` FOREIGN KEY (`lib_isbn`) REFERENCES `libros` (`lib_isbn`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+	INSERT `clientes` VALUES('0000000000','Wilson','Barbecho',4000,'wil@gmail.com','123456','admin');
+	INSERT `clientes` VALUES("1111111111",'Edwin','Castillo',500,'edw@gmail.com','123456','User');
+	INSERT `clientes` VALUES("2222222222",'Carlos','Cajamarca',100,'cc@gmail.com','123456','User');
+
+
+
+	INSERT `libros` VALUES("121577-9-6",'Croata','Jorge García García','1ra',20.40,'c');	
+	INSERT `libros` VALUES("121577-7-2",'El silencio de la lengua','Luis Melero Marcos','1ra',23.46,'c');
+	INSERT `libros` VALUES("121577-8-9",'El legado de los malditos','Vanesa Redondo','2da',81.20,'c');
+	INSERT `libros` VALUES("9788490742",'DRÁCULA','Bram Stoker','1ra',96.50,'c');
+
+
+
+	insert `libros_digitales`VALUES(1,0.40,"121577-9-6");
+	insert `libros_digitales`VALUES(2,0.46,"121577-7-2");
+	insert `libros_impresos` VALUES(1,1.20,20,"121577-8-9");
+	insert `libros_impresos` VALUES(2,1.50,20,"9788490742");
+
+
+	INSERT `compras` VALUES(1 ,'2015-02-22','0000000000',"121577-9-6");
+	INSERT `compras` VALUES(2 ,'2020-02-22','0000000000',"121577-8-9");
+	INSERT `compras` VALUES(3 ,'2020-02-22','0000000000',"121577-7-2");
+
+	INSERT `compras` VALUES(4 ,'2015-02-22','1111111111',"121577-9-6");
+	INSERT `compras` VALUES(5 ,'2020-02-22','1111111111',"121577-8-9");
