@@ -12,14 +12,25 @@ public class LibroDigital extends Libro implements Serializable {
 	private int id;
 	private double comision;
 
-	
-
 	public LibroDigital(String isbn, String titulo, String autor, String edicion, String imagen, double precio,
 			ec.edu.ups.modelo.Libro libro, int id, double comision) {
 		super(isbn, titulo, autor, edicion, imagen, precio);
 		Libro = libro;
 		this.id = id;
 		this.comision = comision;
+	}
+
+	@Override
+	public double calcularPrecioFijo() {
+		// super.setPrecio(super.getPrecio() + comision);
+		return super.getPrecio() + super.getPrecio() * 0.04;
+	}
+
+	@Override
+	public double calcularComision() {
+		// TODO Auto-generated method stub
+		// comision = super.getPrecio() * 0.04;
+		return super.getPrecio() * 0.04;
 	}
 
 	public Libro getLibro() {
@@ -50,7 +61,5 @@ public class LibroDigital extends Libro implements Serializable {
 	public String toString() {
 		return "LibroDigital [id=" + id + ", comision=" + comision + ", toString()=" + super.toString() + "]";
 	}
-
-
 
 }
