@@ -59,7 +59,8 @@ public class LibroDigital extends Libro implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LibroDigital [id=" + id + ", comision=" + comision + ", toString()=" + super.toString() + "]";
+		return "Libro Digital :" + super.toString() + ", id=" + id + ", comision=" + comision ;
+		
 	}
 
 }

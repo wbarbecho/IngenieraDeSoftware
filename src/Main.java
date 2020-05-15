@@ -20,11 +20,15 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Bienvenido 'Template Method'");
-		System.out.println("Integrante:");
+		System.out.println("Integrantes:");
 		System.out.println("Bryam Guzman");
 		System.out.println("Wilson Barbecho");
 		System.out.println("Hugo Zhindon");
 		System.out.println("Adrian Tene");
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println("************MENU************");
 		Scanner sn = new Scanner(System.in);
 		boolean salir = false;
 		int opcion; //Guardaremos la opcion del usuario
@@ -81,6 +85,8 @@ public class Main {
 						System.out.println("1. Actualizar Datos Personales");
 						System.out.println("2. Listar Libros Disponibles");
 						System.out.println("3. Listar Compras realizadas");
+						System.out.println("4. Recargar Credito");
+						
 
 						System.out.println("Escoge una de las opciones:");
 						opcion = sn.nextInt();
@@ -88,6 +94,8 @@ public class Main {
 						switch (opcion) {
 						case 1:
 							System.out.println("Informacion Actual del Usuario");
+							JDBCClienteDAO cli = new JDBCClienteDAO();
+							clienteGlobal = cli.read(clienteGlobal.getCedula());
 							System.out.println(clienteGlobal);
 							System.out.println("Ingrese informacion que desea modificar:");
 							String nombre = "";
@@ -118,7 +126,7 @@ public class Main {
 							System.out.println(clienteGlobal);
 
 							break;
-							
+
 						case 2:
 							System.out.println("Listar Libros");
 							System.out.println("Escoger Tipo de libro: 1. Digital; 2. Impreso");
@@ -138,15 +146,23 @@ public class Main {
 							}
 
 							break;
-							
+
 						case 3:
-							
+
 							System.out.println("El usuario ha realizado las siguientes compras:");
 							JDBCCompraDAO comp = new JDBCCompraDAO();
+							int i = 0;
 							for (Compra compra : comp.find()) {
+								
 								if (compra.getCliente().getCedula().equals(clienteGlobal.getCedula())) {
-									System.out.println(compra);
-									
+									System.out.println(i + ". "+compra);
+									System.out.println("\t" + compra.getCliente());
+									if(compra.getListaDigitales().size()>0)
+										System.out.println("\t" + compra.getListaDigitales());
+									if(compra.getListaImpresos().size()>0)
+										System.out.println("\t" + compra.getListaImpresos());
+									i++;
+
 								}
 							}
 							/*
@@ -154,7 +170,25 @@ public class Main {
 							for (Compra compra : compras) {
 								System.out.println(compra);
 							}*/
+						
+							break;
+						case 4:
 							
+							System.out.println("Recargar Credito");
+							System.out.println("Saldo Actual:" + clienteGlobal.getCredito());
+						
+							System.out.println("Ingresar monto a Recargar:");
+							
+							double monto = sn.nextDouble();
+							double current = clienteGlobal.getCredito();
+							current += monto;				
+							ClienteDAO clienteDAO1 = DAOGuia.getGuia().getClienteDAO();
+
+							clienteDAO1.updateBalance(current, clienteGlobal.getCedula());
+							
+							System.out.println("Se ha actualizado con exito!");
+							System.out.println("Su credito actual es:");
+							System.out.println(current);
 						default:
 							break;
 						}
@@ -249,7 +283,7 @@ public class Main {
 			case 2:
 
 
-				System.out.println("Registrar Sesion");
+				System.out.println("Registrar");
 				System.out.print("Ingrese Cedula: ");
 				String cedula = sn.next();
 				System.out.print("Ingrese Nombre: ");

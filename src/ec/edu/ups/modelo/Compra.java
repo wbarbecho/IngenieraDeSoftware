@@ -76,8 +76,7 @@ public class Compra implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Compra [id=" + id + ", fecha=" + fecha + ", cliente=" + cliente + ", ListaDigitales=" + listaDigitales
-				+ ", ListaImpresos=" + listaImpresos + "]";
+		return "Compra [id=" + id + ", fecha=" + fecha + "]";
 	}
 
 }

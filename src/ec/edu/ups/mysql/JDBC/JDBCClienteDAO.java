@@ -55,6 +55,13 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 
 	}
 
+	public void updateBalance(Double balance, String id) {
+		// TODO Auto-generated method stub
+		conexionUno.update("UPDATE Clientes SET CLI_CREDITO = " + balance + " WHERE CLI_CEDULA = '"
+				+ id + "'");
+
+	}
+	
 	@Override
 	public void delete(Cliente cliente) {
 		// TODO Auto-generated method stub
