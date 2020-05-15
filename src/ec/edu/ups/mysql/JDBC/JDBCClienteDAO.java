@@ -34,7 +34,7 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 			if (rs != null && rs.next()) {
 
 				cli = new Cliente(rs.getString("CLI_CEDULA"), rs.getString("CLI_NOMBRE"), rs.getString("CLI_APELLIDO"),
-						rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"), rs.getString("CLI_CONTRASENIA"));
+						rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"), rs.getString("CLI_CONTRASENIA"), rs.getString("CLI_ROL"));
 
 			}
 		} catch (SQLException e) {
@@ -68,10 +68,10 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 		ResultSet rs = conexionUno.query("SELECT * FROM CLIENTES");
 		try {
 			while (rs.next()) {
-				Cliente cli = new Cliente(rs.getString("CLI_CEDULA"), rs.getString("CLI_NOMBRE"),
-						rs.getString("CLI_APELLIDO"), rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"),
-						rs.getString("CLI_CONTRASENIA"));
+				Cliente cli = new Cliente(rs.getString("CLI_CEDULA"), rs.getString("CLI_NOMBRE"), rs.getString("CLI_APELLIDO"),
+						rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"), rs.getString("CLI_CONTRASENIA"), rs.getString("CLI_ROL"));
 				list.add(cli);
+
 			}
 
 		} catch (SQLException e) {
@@ -84,14 +84,14 @@ public class JDBCClienteDAO extends JDBCGenericDAO<Cliente, String> implements C
 	@Override
 	public Cliente readByAddress(String id) {
 		Cliente cli = null;
-		ResultSet rs = conexionUno.query("Select * from Clientes where CLI_CORREO =" + id);
+		ResultSet rs = conexionUno.query("Select * from Clientes where CLI_CORREO ='" + id + "'");
 		try {
 			if (rs != null && rs.next()) {
 
 				cli = new Cliente(rs.getString("CLI_CEDULA"), rs.getString("CLI_NOMBRE"), rs.getString("CLI_APELLIDO"),
-						rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"), rs.getString("CLI_CONTRASENIA"));
-
+						rs.getDouble("CLI_CREDITO"), rs.getString("CLI_CORREO"), rs.getString("CLI_CONTRASENIA"), rs.getString("CLI_ROL"));
 			}
+			
 		} catch (SQLException e) {
 			System.out.println(">>>WARNING (JDBCUserDAO:read): " + e.getMessage());
 

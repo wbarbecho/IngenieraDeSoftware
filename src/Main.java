@@ -4,9 +4,11 @@ import java.util.Scanner;
 
 import ec.edu.ups.DAO.DAOGuia;
 import ec.edu.ups.DAO.LibroDigitalDAO;
+import ec.edu.ups.DAO.LibroImpresoDAO;
 import ec.edu.ups.controlador.CliController;
 import ec.edu.ups.modelo.Cliente;
 import ec.edu.ups.modelo.LibroDigital;
+import ec.edu.ups.modelo.LibroImpreso;
 import ec.edu.ups.mysql.JDBC.JDBCClienteDAO;
 import ec.edu.ups.mysql.JDBC.JDBCLibroDigitalDAO;
 
@@ -28,27 +30,33 @@ public class Main {
 		List<Cliente> clientes = cli.find();
 		Cliente clienteGlobal = null;
 		boolean user = false;
-		boolean correcto = true;
+		boolean correcto = false;
+		System.out.println("Iniciar Sesion");
 		while (!correcto) {
-			System.out.println("Iniciar Sesion");
+			
 			System.out.println("Ingresar Correo:");
 			String correo = sn.nextLine();
+
 			System.out.println("Ingresar contrasenia:");
 			String contrasenia = sn.nextLine();
+			System.out.println("Mijo");
 			for (Cliente cliente : clientes) {
+				clienteGlobal = cli.readByAddress(correo);
 				if (cliente.getCorreo().equals(correo) && cliente.getContrasenia().equals(contrasenia)) {
-					clienteGlobal = cli.readByAddress(correo);
+					
+					correcto = true;
+					
 					System.out.println(clienteGlobal);
 					System.out.println("Bienvenido usuari@" + clienteGlobal.getNombre() + " " + clienteGlobal.getApellido());
 					if (clienteGlobal.getRol().equals("User"))
 						user = true;
 
 				}
-				else {
-					correcto = false;
-					System.out.println("Usuario invalido, ingrese nuevamente, por favor!");
-				}
+				
+				
 			}
+			if (!correcto)
+				System.out.println("Usuario invalido, ingrese nuevamente, por favor!");
 		}
 		while (!salir) {
 			if(user) {
@@ -76,21 +84,26 @@ public class Main {
 						int tipo = sn.nextInt();
 						System.out.println("Registrar Libro");
 						System.out.print("Ingrese ISBN:");
-						String isbn = sn.nextLine();
+						String isbn = sn.next();
+					
 						System.out.print("Ingrese Titulo:");
-						String titulo = sn.nextLine();
+						String titulo = sn.next();
 						System.out.print("Ingrese Autor:");
-						String autor = sn.nextLine();
-						System.out.print("Ingrese Edicion: ");
-						String edicion = sn.nextLine();
+						String autor = sn.next();
+						System.out.print("Ingrese Edicion:");
+						String edicion = sn.next();
 						System.out.print("Ingreso Precio: ");
 						double precio = sn.nextDouble();
 						if(tipo == 1) {
 
-							LibroDigital lib = new LibroDigital(isbn, titulo, autor, edicion, "null", precio, null, 1, 20.00);
+							LibroDigital lib = new LibroDigital(isbn, titulo, autor, edicion, "null", precio, null, 2, 0.04);
 
 							LibroDigitalDAO libroDigitalDAO = DAOGuia.getGuia().getLibroDigitalDAO();
 							libroDigitalDAO.create(lib); 
+						}else {
+							LibroImpreso lib = new LibroImpreso(isbn, titulo, autor, edicion, "null", precio, null, 3, 0.02, 20.00);
+							LibroImpresoDAO libroImpresoDAO = DAOGuia.getGuia().getLibroImpresoDAO();
+							libroImpresoDAO.create(lib);
 						}
 
 						break;
