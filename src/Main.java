@@ -20,11 +20,15 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Bienvenido 'Template Method'");
-		System.out.println("Integrante:");
+		System.out.println("Integrantes:");
 		System.out.println("Bryam Guzman");
 		System.out.println("Wilson Barbecho");
 		System.out.println("Hugo Zhindon");
 		System.out.println("Adrian Tene");
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println("************MENU************");
 		Scanner sn = new Scanner(System.in);
 		boolean salir = false;
 		int opcion; //Guardaremos la opcion del usuario
@@ -242,7 +246,7 @@ public class Main {
 			case 2:
 
 
-				System.out.println("Registrar Sesion");
+				System.out.println("Registrar");
 				System.out.print("Ingrese Cedula: ");
 				String cedula = sn.next();
 				System.out.print("Ingrese Nombre: ");
