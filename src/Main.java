@@ -143,10 +143,17 @@ public class Main {
 							
 							System.out.println("El usuario ha realizado las siguientes compras:");
 							JDBCCompraDAO comp = new JDBCCompraDAO();
+							for (Compra compra : comp.find()) {
+								if (compra.getCliente().getCedula().equals(clienteGlobal.getCedula())) {
+									System.out.println(compra);
+									
+								}
+							}
+							/*
 							List<Compra> compras = comp.findById(clienteGlobal.getCedula());
 							for (Compra compra : compras) {
 								System.out.println(compra);
-							}
+							}*/
 							
 						default:
 							break;
