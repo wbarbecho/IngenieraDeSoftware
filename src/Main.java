@@ -219,8 +219,8 @@ public class Main {
 							
 
 							boolean otro = true;
-							List<LibroDigital> libroDg = new ArrayList<LibroDigital>();
-							List<LibroImpreso> libroImp = new ArrayList<LibroImpreso>();
+							List<LibroDigital> libroDg = null;
+							List<LibroImpreso> libroImp = null;
 					
 							
 							while(otro) {
