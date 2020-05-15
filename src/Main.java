@@ -122,7 +122,7 @@ public class Main {
 							System.out.println(clienteGlobal);
 
 							break;
-							
+
 						case 2:
 							System.out.println("Listar Libros");
 							System.out.println("Escoger Tipo de libro: 1. Digital; 2. Impreso");
@@ -142,15 +142,23 @@ public class Main {
 							}
 
 							break;
-							
+
 						case 3:
-							
+
 							System.out.println("El usuario ha realizado las siguientes compras:");
 							JDBCCompraDAO comp = new JDBCCompraDAO();
+							int i = 0;
 							for (Compra compra : comp.find()) {
+								
 								if (compra.getCliente().getCedula().equals(clienteGlobal.getCedula())) {
-									System.out.println(compra);
-									
+									System.out.println(i + ". "+compra);
+									System.out.println("\t" + compra.getCliente());
+									if(compra.getListaDigitales().size()>0)
+										System.out.println("\t" + compra.getListaDigitales());
+									if(compra.getListaImpresos().size()>0)
+										System.out.println("\t" + compra.getListaImpresos());
+									i++;
+
 								}
 							}
 							/*
@@ -158,7 +166,7 @@ public class Main {
 							for (Compra compra : compras) {
 								System.out.println(compra);
 							}*/
-							
+
 						default:
 							break;
 						}
