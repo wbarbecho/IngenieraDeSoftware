@@ -18,21 +18,17 @@ public class LibroImpreso extends Libro implements Serializable {
 		super(isbn, titulo, autor, edicion, imagen, precio);
 		Libro = libro;
 		this.id = id;
-		this.comision = comision;
+		this.comision = comision = super.getPrecio() * 0.02;
 		this.costoEnvio = costoEnvio;
 	}
 
 	@Override
 	public double calcularPrecioFijo() {
-		costoEnvio = 20;
-		double precioFijo = super.getPrecio() + comision + costoEnvio;
-		super.setPrecio(precioFijo);
-		return precioFijo;
+		return super.getPrecio() + 20;
 	}
 
 	@Override
 	public double calcularComision() {
-		comision = super.getPrecio() * 0.02;
 		return comision;
 	}
 

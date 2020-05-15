@@ -25,9 +25,8 @@ public abstract class Libro implements Serializable {
 		this.precio = precio;
 	}
 
-	public void calcularPrecio() {
-		System.out.println("Comision: " + calcularComision());
-		System.out.println("PrecioFijo: " + calcularPrecioFijo());
+	public double calcularPrecio() {
+		return this.calcularPrecioFijo() + this.calcularComision();
 	}
 
 	public abstract double calcularPrecioFijo();
@@ -84,7 +83,8 @@ public abstract class Libro implements Serializable {
 
 	@Override
 	public String toString() {
-		return "isbn=" + isbn + ", titulo=" + titulo + ", Autor=" + Autor + ", edicion=" + edicion + ", precio=" + precio;
+		return "isbn=" + isbn + ", titulo=" + titulo + ", Autor=" + Autor + ", edicion=" + edicion + ", precio="
+				+ precio;
 	}
 
 }

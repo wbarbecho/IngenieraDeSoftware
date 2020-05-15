@@ -17,19 +17,16 @@ public class LibroDigital extends Libro implements Serializable {
 		super(isbn, titulo, autor, edicion, imagen, precio);
 		Libro = libro;
 		this.id = id;
-		this.comision = comision;
+		this.comision = super.getPrecio() * 0.04;
 	}
 
 	@Override
 	public double calcularPrecioFijo() {
-		double precioFijo = super.getPrecio() + comision;
-		super.setPrecio(precioFijo);
-		return precioFijo;
+		return super.getPrecio();
 	}
 
 	@Override
 	public double calcularComision() {
-		comision = super.getPrecio() * 0.03;
 		return comision;
 	}
 
