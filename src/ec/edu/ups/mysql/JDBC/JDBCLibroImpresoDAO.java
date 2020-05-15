@@ -30,7 +30,7 @@ public class JDBCLibroImpresoDAO extends JDBCGenericDAO<LibroImpreso, String> im
 	public LibroImpreso read(String isbn) {
 		// TODO Auto-generated method stub
 		LibroImpreso libro = null;
-		ResultSet rs = conexionUno.query(
+		ResultSet rs = conexionDos.query(
 				"select * from libros inner join libros_impresos ON libros.lib_isbn = libros_impresos.lib_isbn WHERE libros.lib_isbn = '"
 						+ isbn + "'");
 		try {
@@ -43,7 +43,7 @@ public class JDBCLibroImpresoDAO extends JDBCGenericDAO<LibroImpreso, String> im
 				libro = new LibroImpreso(rs.getString("libros.lib_isbn"), rs.getString("libros.lib_titulo"),
 						rs.getString("libros.lib_autor"), rs.getString("libros.lib_edicion"),
 						rs.getString("libros.lib_ubi_img"), rs.getDouble("libros.lib_precio"), null, 0,
-						rs.getDouble("lib_impr_com"),rs.getDouble("lib_impr_costo_envio"));
+						rs.getDouble("lib_impr_com"), rs.getDouble("lib_impr_costo_envio"));
 			}
 		} catch (SQLException e) {
 			System.out.println(">>>WARNING (JDBCUserDAO:read): " + e.getMessage());
@@ -74,14 +74,15 @@ public class JDBCLibroImpresoDAO extends JDBCGenericDAO<LibroImpreso, String> im
 	public List<LibroImpreso> find() {
 		// TODO Auto-generated method stub
 		List<LibroImpreso> list = new ArrayList<LibroImpreso>();
-		ResultSet rs = conexionUno.query(
-				"select * from libros inner join libros_impresos ON libros.lib_isbn = libros_impresos.lib_isbn");
+		ResultSet rs = conexionUno
+				.query("select * from libros inner join libros_impresos ON libros.lib_isbn = libros_impresos.lib_isbn");
 		try {
 			while (rs.next()) {
-				LibroImpreso libro = new LibroImpreso(rs.getString("libros.lib_isbn"), rs.getString("libros.lib_titulo"),
-						rs.getString("libros.lib_autor"), rs.getString("libros.lib_edicion"),
-						rs.getString("libros.lib_ubi_img"), rs.getDouble("libros.lib_precio"), null, 0,
-						rs.getDouble("lib_impr_com"),rs.getDouble("lib_impr_costo_envio"));
+				LibroImpreso libro = new LibroImpreso(rs.getString("libros.lib_isbn"),
+						rs.getString("libros.lib_titulo"), rs.getString("libros.lib_autor"),
+						rs.getString("libros.lib_edicion"), rs.getString("libros.lib_ubi_img"),
+						rs.getDouble("libros.lib_precio"), null, 0, rs.getDouble("lib_impr_com"),
+						rs.getDouble("lib_impr_costo_envio"));
 				list.add(libro);
 			}
 		} catch (SQLException e) {

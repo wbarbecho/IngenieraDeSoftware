@@ -13,8 +13,8 @@ public class Compra implements Serializable {
 	private int id;
 	private Date fecha;
 	private Cliente cliente;
-	private ArrayList<LibroDigital> ListaDigitales;
-	private ArrayList<LibroImpreso> ListaImpresos;
+	private ArrayList<LibroDigital> listaDigitales;
+	private ArrayList<LibroImpreso> listaImpresos;
 
 	public Compra(int id, Date fecha, Cliente cliente, ArrayList<LibroDigital> listaDigitales,
 			ArrayList<LibroImpreso> listaImpresos) {
@@ -22,8 +22,8 @@ public class Compra implements Serializable {
 		this.id = id;
 		this.fecha = fecha;
 		this.cliente = cliente;
-		ListaDigitales = listaDigitales;
-		ListaImpresos = listaImpresos;
+		this.listaDigitales = listaDigitales;
+		this.listaImpresos = listaImpresos;
 	}
 
 	public int getId() {
@@ -51,33 +51,33 @@ public class Compra implements Serializable {
 	}
 
 	public ArrayList<LibroDigital> getListaDigitales() {
-		return ListaDigitales;
+		return listaDigitales;
 	}
 
 	public void setListaDigitales(ArrayList<LibroDigital> listaDigitales) {
-		ListaDigitales = listaDigitales;
+		listaDigitales = listaDigitales;
 	}
 
 	public ArrayList<LibroImpreso> getListaImpresos() {
-		return ListaImpresos;
+		return listaImpresos;
 	}
 
 	public void setListaImpresos(ArrayList<LibroImpreso> listaImpresos) {
-		ListaImpresos = listaImpresos;
+		listaImpresos = listaImpresos;
 	}
 
 	public void addLibroDigital(LibroDigital libro) {
-		ListaDigitales.add(libro);
+		listaDigitales.add(libro);
 	}
 
 	public void addLibroImreso(LibroImpreso libro) {
-		ListaImpresos.add(libro);
+		listaImpresos.add(libro);
 	}
 
 	@Override
 	public String toString() {
-		return "Compra [id=" + id + ", fecha=" + fecha + ", cliente=" + cliente + ", ListaDigitales=" + ListaDigitales
-				+ ", ListaImpresos=" + ListaImpresos + "]";
+		return "Compra [id=" + id + ", fecha=" + fecha + ", cliente=" + cliente + ", ListaDigitales=" + listaDigitales
+				+ ", ListaImpresos=" + listaImpresos + "]";
 	}
 
 }

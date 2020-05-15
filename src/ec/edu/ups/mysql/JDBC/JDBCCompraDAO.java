@@ -24,13 +24,13 @@ public class JDBCCompraDAO extends JDBCGenericDAO<Compra, String> implements Com
 	public void create(Compra compra) {
 		// TODO Auto-generated method stub
 		for (Libro libro : compra.getListaDigitales()) {
-			conexionUno.update("INSERT compras VALUES ('" + "null" + compra.getFecha() + compra.getCliente().getCedula()
-					+ libro + ")");
-
+			conexionUno.update("INSERT compras VALUES (null," + "curdate()," + "'" + compra.getCliente().getCedula()
+					+ "','" + libro.getIsbn() + "')");
 		}
+
 		for (Libro libro : compra.getListaImpresos()) {
-			conexionUno.update("INSERT compras VALUES ('" + "null" + compra.getFecha() + compra.getCliente().getCedula()
-					+ libro + ")");
+			conexionUno.update("INSERT compras VALUES (null," + "curdate()," + "'" + compra.getCliente().getCedula()
+					+ "','" + libro.getIsbn() + "')");
 
 		}
 	}
@@ -41,16 +41,20 @@ public class JDBCCompraDAO extends JDBCGenericDAO<Compra, String> implements Com
 		JDBCClienteDAO buscarCliente = new JDBCClienteDAO();
 		Cliente cliente = buscarCliente.read(cedula);
 		JDBCLibroDigitalDAO buscarDigital = new JDBCLibroDigitalDAO();
+		JDBCLibroImpresoDAO buscarImpres = new JDBCLibroImpresoDAO();
 		ArrayList<LibroDigital> listaDigitales = new ArrayList<LibroDigital>();
 		ArrayList<LibroImpreso> ListaImpresos = new ArrayList<LibroImpreso>();
 
 		Compra compra = null;
-		ResultSet rs = conexionDos.query("select * from compras where cli_cedula = " + cedula);
+		ResultSet rs3 = conexionTres.query("select * from compras where cli_cedula = " + cedula);
 		try {
-			if (rs != null && rs.next()) {
-				listaDigitales.add(buscarDigital.read(rs.getString("lib_isbn")));
-				// Ingresar Busqueda libro
-				compra = new Compra(rs.getInt("compr_id"), rs.getDate("compr_fecha"), cliente, listaDigitales,
+			if (rs3 != null && rs3.next()) {
+				if (buscarDigital.read(rs3.getString("lib_isbn")) != null) {
+					listaDigitales.add(buscarDigital.read(rs3.getString("lib_isbn")));
+				} else if (buscarImpres.read(rs3.getString("lib_isbn")) != null) {
+					ListaImpresos.add(buscarImpres.read(rs3.getString("lib_isbn")));
+				}
+				compra = new Compra(rs3.getInt("compr_id"), rs3.getDate("compr_fecha"), cliente, listaDigitales,
 						ListaImpresos);
 			}
 		} catch (SQLException e) {
@@ -79,24 +83,30 @@ public class JDBCCompraDAO extends JDBCGenericDAO<Compra, String> implements Com
 		List<Compra> list = new ArrayList<Compra>();
 		ResultSet rs = conexionUno.query("SELECT * FROM compras");
 		JDBCLibroDigitalDAO buscarDigital = new JDBCLibroDigitalDAO();
-		ArrayList<LibroDigital> listaDigitales = new ArrayList<LibroDigital>();
-		ArrayList<LibroImpreso> ListaImpresos = new ArrayList<LibroImpreso>();
+		JDBCLibroImpresoDAO buscarImpres = new JDBCLibroImpresoDAO();
+		JDBCClienteDAO buscarCliente = new JDBCClienteDAO();
+		ArrayList<String> cedulas = new ArrayList<String>();
+		ArrayList<String> isbnLista = new ArrayList<String>();
 		try {
-			JDBCClienteDAO buscarCliente = new JDBCClienteDAO();
 			while (rs.next()) {
-				Cliente cliente = buscarCliente.read(rs.getString("CLI_CEDULA"));
-				listaDigitales.add(buscarDigital.read(rs.getString("lib_isbn")));
-				// Ingresar Busqueda libro
-
-				Compra comp = new Compra(rs.getInt("compr_id"), rs.getDate("compr_fecha"), cliente, listaDigitales,
-						ListaImpresos);
-
+				isbnLista.add(rs.getString("lib_isbn"));
+				cedulas.add(rs.getString("cli_cedula"));
+				Compra comp = new Compra(rs.getInt("compr_id"), rs.getDate("compr_fecha"), null,
+						new ArrayList<LibroDigital>(), new ArrayList<LibroImpreso>());
 				list.add(comp);
-
 			}
 
 		} catch (SQLException e) {
 			System.out.println(">>>WARNING (JDBCShoppingBasketDAO:find): " + e.getMessage());
+		}
+
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setCliente(buscarCliente.read(cedulas.get(i)));
+			if (buscarDigital.read(isbnLista.get(i)) != null) {
+				list.get(i).getListaDigitales().add(buscarDigital.read(isbnLista.get(i)));
+			} else if (buscarImpres.read(isbnLista.get(i)) != null) {
+				list.get(i).getListaImpresos().add(buscarImpres.read(isbnLista.get(i)));
+			}
 		}
 
 		return list;

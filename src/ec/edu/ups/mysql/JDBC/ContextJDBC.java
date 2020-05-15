@@ -14,6 +14,7 @@ public class ContextJDBC {
 	private static final String PASS = "Magaly00";
 	private static ContextJDBC jdbc1 = null;
 	private static ContextJDBC jdbc2 = null;
+	private static ContextJDBC jdbc3 = null;
 	private Statement statement = null;
 
 	public ContextJDBC() {
@@ -60,7 +61,7 @@ public class ContextJDBC {
 	public boolean update(String sql) {
 		try {
 			this.statement.executeUpdate(sql);
-			
+
 			return true;
 		} catch (SQLException e) {
 			System.out.println(">>>WARNING (JDBC:update)... actualizacion: ---" + sql + "---" + e);
@@ -76,7 +77,8 @@ public class ContextJDBC {
 	 * @return jdbc
 	 */
 	protected static ContextJDBC getJDBC1() {
-		// creación de la conexión a la base de datos solo si no ha sido creada patrón
+		// creación de la conexión a la base de datos solo si no ha sido creada
+		// patrón
 		// de diseño singleton
 		if (jdbc1 == null) {
 			jdbc1 = new ContextJDBC();
@@ -93,12 +95,24 @@ public class ContextJDBC {
 	 * @return jdbc
 	 */
 	protected static ContextJDBC getJDBC2() {
-		// creación de la conexión a la base de datos solo si no ha sido creada patrón
+		// creación de la conexión a la base de datos solo si no ha sido creada
+		// patrón
 		// de diseño singleton
 		if (jdbc2 == null) {
 			jdbc2 = new ContextJDBC();
 		}
 		return jdbc2;
+
+	}
+
+	protected static ContextJDBC getJDBC3() {
+		// creación de la conexión a la base de datos solo si no ha sido creada
+		// patrón
+		// de diseño singleton
+		if (jdbc3 == null) {
+			jdbc3 = new ContextJDBC();
+		}
+		return jdbc3;
 
 	}
 
